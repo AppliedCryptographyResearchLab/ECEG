@@ -10,12 +10,12 @@ using namespace std;
 int pky,My,C1y,C2y;
 big a,pkx,Mx,C1x,C2x,sk,m,r;
 ofstream fout;
-miracl *mip;
-#ifndef MR_NOFULLWIDTH   
+miracl *mip = mirsys(36,0);
+/*#ifndef MR_NOFULLWIDTH   
     mip=mirsys(36,0);
 #else
     mip=mirsys(36,MAXBASE);
-#endif
+#endif*/
 
 bool ECEG::initialized = false;
 big ECEG::ecA = NULL;
