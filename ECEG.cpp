@@ -29,7 +29,7 @@ epoint * ECEG::M = NULL;
 epoint * ECEG::C1 = NULL;
 epoint * ECEG::C2 = NULL;
 
-void init(std::istream &ecSource)
+void ECEG::init(std::istream &ecSource)
 {
     irand( (unsigned int)time(0) );
     if ( ecSource.fail() )      {
@@ -75,7 +75,7 @@ void init(std::istream &ecSource)
 }
 
 
-void keyGen()  {
+void ECEG::keyGen()  {
          
 
 	if (!initialized)   {
@@ -98,7 +98,7 @@ void keyGen()  {
 
 }
 
-void Enc(std::istream &pKey, std::istream &plain)  {
+void ECEG::Enc(std::istream &pKey, std::istream &plain)  {
 	          
 	if (!initialized)   {
                 std::cerr << "Error: 'setPoint': It must first be initialized!" << std::endl;
@@ -132,7 +132,7 @@ void Enc(std::istream &pKey, std::istream &plain)  {
 
 
 
-void Dec(std::istream &sKey, std::istream &cipher)  {
+void ECEG::Dec(std::istream &sKey, std::istream &cipher)  {
 	
 	if (!initialized)   {
                 std::cerr << "Error: 'setPoint': It must first be initialized!" << std::endl;
