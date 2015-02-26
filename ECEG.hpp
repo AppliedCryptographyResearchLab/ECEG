@@ -50,10 +50,6 @@ protected:
      */
     static epoint * G;
     /**
-     * @brief Elliptic curve point that we are looking for its DL.
-     */
-    static epoint * H;
-    /**
      * @brief Point that reperesents the public key for ECEG.
      */
     static epoint * Q;
