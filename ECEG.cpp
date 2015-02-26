@@ -24,7 +24,6 @@ big ECEG::ecP = NULL;
 big ECEG::ord = NULL;
 big ECEG::bigBuffer[BIG_BUFFER_SIZE];
 epoint * ECEG::G = NULL;
-epoint * ECEG::H = NULL;
 epoint * ECEG::Q = NULL;
 epoint * ECEG::M = NULL;
 epoint * ECEG::C1 = NULL;
@@ -38,7 +37,6 @@ void init(std::istream &ecSource)
         exit(1);
     } else  {
         G = epoint_init();  
-        H = epoint_init();
 	Q = epoint_init();
 	M = epoint_init();
 	C1 = epoint_init();
@@ -89,6 +87,8 @@ void keyGen()  {
      	cout<<sk<<endl;   
 	fout<<sk<<endl;
 	fout.close();
+	H = epoint_init();
+	big *H;
         ecurve_mult(sk,G,H);
 	pky=epoint_get(H,pkx,pkx);
 	fout.open(PKFILE);
