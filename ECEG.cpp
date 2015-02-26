@@ -7,9 +7,6 @@ using namespace std;
 #define  CFILE "ECEG_Cipher.txt"
 #define  PFILE "ECEG_Plain.txt"
 
-
-//miracl *mip = mirsys(36,0);
-
 int pky,My,C1y,C2y;
 epoint *G,*H,*M,*Q,*C1,*C2;
 big a,pkx,Mx,C1x,C2x,sk,m,r,ecA,ecB,ecP,ord;
@@ -20,9 +17,6 @@ miracl *mip;
 #else
     mip=mirsys(36,MAXBASE);
 #endif
-
-
-
 
 bool ECEG::initialized = false;
 big ECEG::ecA = NULL;
@@ -39,22 +33,18 @@ epoint * ECEG::C2 = NULL;
 
 void init(std::istream &ecSource)
 {
-
-	
     irand( (unsigned int)time(0) );
-
     if ( ecSource.fail() )      {
         std::cerr << "Error: 'init': Failed to load curves from file!" << std::endl;
         exit(1);
     } else  {
-        G = epoint_init();
+        G = epoint_init();  
         H = epoint_init();
 	Q = epoint_init();
 	M = epoint_init();
 	C1 = epoint_init();
 	C2 = epoint_init();
-
-
+	
 	a=mirvar(0);
         sk=mirvar(0);
         ecA = mirvar(0);
@@ -167,11 +157,28 @@ void Dec(std::istream &sKey, std::istream &cipher)  {
         cerr << "The computation failed! it took " << stopwatch.getTime() << " seconds" << endl;
         //exit(EXIT_FAILURE);
     }
-	
-
-	
-	
 
     
 }
 
+void ECEG::free() {
+    if (ecA != NULL)
+        mirkill(ecA);
+    if (ecB != NULL)
+        mirkill(ecB);
+    if (ecP != NULL)
+        mirkill(ecP);
+    if (ord != NULL)
+        mirkill(ord);
+    if (G != NULL)
+        epoint_free(G);
+    if (H != NULL)
+        epoint_free(H);
+    if (initialized)    {
+        for (int i = 0; i < BIG_BUFFER_SIZE; i++)       {
+            mirkill(bigBuffer[i]);
+        }
+    }
+    mirexit();
+    initialized = false;
+}
