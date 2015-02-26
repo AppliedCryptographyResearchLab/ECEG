@@ -8,8 +8,7 @@ using namespace std;
 #define  PFILE "ECEG_Plain.txt"
 
 int pky,My,C1y,C2y;
-epoint *G,*H,*M,*Q,*C1,*C2;
-big a,pkx,Mx,C1x,C2x,sk,m,r,ecA,ecB,ecP,ord;
+big a,pkx,Mx,C1x,C2x,sk,m,r;
 ofstream fout;
 miracl *mip;
 #ifndef MR_NOFULLWIDTH   
@@ -74,7 +73,6 @@ void init(std::istream &ecSource)
             exit(1);
         }
 	}
-
 
 }
 
