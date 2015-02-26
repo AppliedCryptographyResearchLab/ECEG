@@ -41,7 +41,7 @@ void init(std::istream &ecSource)
 	M = epoint_init();
 	C1 = epoint_init();
 	C2 = epoint_init();
-	
+
 	a=mirvar(0);
         sk=mirvar(0);
         ecA = mirvar(0);
@@ -78,7 +78,7 @@ void init(std::istream &ecSource)
 void keyGen()  {
          
 
-	if (!init)   {
+	if (!initialized)   {
                 std::cerr << "Error: 'setPoint': It must first be initialized!" << std::endl;
         exit(1);
     	}
@@ -100,7 +100,7 @@ void keyGen()  {
 
 void Enc(std::istream &pKey, std::istream &plain)  {
 	          
-	if (!init)   {
+	if (!initialized)   {
                 std::cerr << "Error: 'setPoint': It must first be initialized!" << std::endl;
         exit(1);
     	}
@@ -134,7 +134,7 @@ void Enc(std::istream &pKey, std::istream &plain)  {
 
 void Dec(std::istream &sKey, std::istream &cipher)  {
 	
-	if (!init)   {
+	if (!initialized)   {
                 std::cerr << "Error: 'setPoint': It must first be initialized!" << std::endl;
         exit(1);
     	}
