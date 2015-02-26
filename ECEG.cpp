@@ -133,6 +133,12 @@ void Enc(std::istream &pKey, std::istream &plain)  {
 
 
 void Dec(std::istream &sKey, std::istream &cipher)  {
+	
+	if (!init)   {
+                std::cerr << "Error: 'setPoint': It must first be initialized!" << std::endl;
+        exit(1);
+    	}
+    	
 	//Read Secret Key
  	sKey>>sk;
 
