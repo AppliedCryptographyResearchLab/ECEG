@@ -87,8 +87,8 @@ void ECEG::keyGen()  {
      	cout<<sk<<endl;   
 	fout<<sk<<endl;
 	fout.close();
-	H = epoint_init();
 	big *H;
+	H = epoint_init();
         ecurve_mult(sk,G,H);
 	pky=epoint_get(H,pkx,pkx);
 	fout.open(PKFILE);
