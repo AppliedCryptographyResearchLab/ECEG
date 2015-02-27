@@ -87,10 +87,8 @@ void ECEG::keyGen()  {
      	cout<<sk<<endl;   
 	fout<<sk<<endl;
 	fout.close();
-	epoint * H;
-	H = epoint_init();
-        ecurve_mult(sk,G,H);
-	pky=epoint_get(H,pkx,pkx);
+        ecurve_mult(sk,G,Q);
+	pky=epoint_get(Q,pkx,pkx);
 	fout.open(PKFILE);
         fout<<pkx<<endl;
         fout<<pky<<endl;
@@ -176,8 +174,6 @@ void ECEG::free() {
         mirkill(ord);
     if (G != NULL)
         epoint_free(G);
-    if (H != NULL)
-        epoint_free(H);
     if (initialized)    {
         for (int i = 0; i < BIG_BUFFER_SIZE; i++)       {
             mirkill(bigBuffer[i]);
