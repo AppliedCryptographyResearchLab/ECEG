@@ -63,7 +63,7 @@ void ECEG::init(std::istream &ecSource)
 	ecSource >> ecP >> ecA >> ecB >> ord >> x >> y;
         //convert(-3,a);
 
-
+	initialized = true;
         cout<<bits<<endl<<a<<endl<<x<<endl<<ord<<endl;
         ecurve_init(ecA, ecB, ecP, MR_BEST);  /* Use PROJECTIVE if possible, else AFFINE coordinates */
         if ( !epoint_set(x,y,0,G) )     {
