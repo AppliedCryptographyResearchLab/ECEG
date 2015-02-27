@@ -54,7 +54,7 @@ void ECEG::init(std::istream &ecSource)
 	Mx = mirvar(0);
 	C1x = mirvar(0);
 	C2x = mirvar(0);
-	int bits,pky;
+	int bits;
 	big x = mirvar(0);
 	big y = mirvar(0);
 	mip->IOBASE=10;
