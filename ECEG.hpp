@@ -86,8 +86,8 @@ public:
          */
         static void init(std::istream &ecSource);
         /**
-         * @brief This procedure generates the keys to be used for encryption and decryption and stores the keys
-         * in "EC_PK.txt" and "EC_SK.txt" files.
+         * @brief This procedure generates the keys to be used for encryption and decryption in the ECEG Cryptosystem
+         * and stores the keys in "EC_PK.txt" and "EC_SK.txt" files.
          */
         static void keyGen();
         /**
@@ -112,8 +112,6 @@ public:
          * allocation of memory alone set the coordinates of the point.
          * @warning Before calling this procedure, the procedure init (std::istream &ecSource) must be called.
          */
-        static void keyGen();
-   
     static bool isInitialized() {
         return initialized;
     };
