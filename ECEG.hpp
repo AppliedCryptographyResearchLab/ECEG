@@ -1,3 +1,7 @@
+/**
+ * @file ECEG.hpp Declaration of class ECEG.
+ * @author Mohamed Grissa.
+ */
 #ifndef ECEG_HEADER
 #define ECEG_HEADER
 
