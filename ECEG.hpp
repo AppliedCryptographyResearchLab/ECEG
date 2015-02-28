@@ -13,7 +13,7 @@
 #include "CTimer.hpp"
 #include "CLambdaAlg.hpp"
 #include "CECContext.hpp"
-
+#include <math.h>
 
 
 /**

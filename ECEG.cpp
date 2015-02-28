@@ -6,7 +6,7 @@ using namespace std;
 #define  SKFILE "EC_SK.txt"
 #define  CFILE "ECEG_Cipher.txt"
 #define  PFILE "ECEG_Plain.txt"
-
+#define  MSG_SIZE 20
 int pky,My,C1y,C2y;
 big a,pkx,Mx,C1x,C2x,sk,m,r;
 ofstream fout;
@@ -31,6 +31,7 @@ epoint * ECEG::C2 = NULL;
 
 void ECEG::init(std::istream &ecSource)
 {
+	cout << "----------------------------------Initialization----------------------------------------" << endl;
     irand( (unsigned int)time(0) );
     if ( ecSource.fail() )      {
         std::cerr << "Error: 'init': Failed to load curves from file!" << std::endl;
@@ -64,8 +65,9 @@ void ECEG::init(std::istream &ecSource)
         //convert(-3,a);
 
 	initialized = true;
+	
         cout<<bits<<endl<<a<<endl<<x<<endl<<ord<<endl;
-        ecurve_init(ecA, ecB, ecP, MR_BEST);  /* Use PROJECTIVE if possible, else AFFINE coordinates */
+        ecurve_init(ecA, ecB, ecP, MR_PROJECTIVE);  /* Use PROJECTIVE if possible, else AFFINE coordinates */
         if ( !epoint_set(x,y,0,G) )     {
                         std::cerr << "Error: 'init': Point (generator) does not lie on the curve!" << std::endl;
             exit(1);
@@ -77,11 +79,12 @@ void ECEG::init(std::istream &ecSource)
 
 void ECEG::keyGen()  {
          
-
+cout << "----------------------------------Key Generation----------------------------------------" << endl;
 	if (!initialized)   {
                 std::cerr << "Error: 'setPoint': It must first be initialized!" << std::endl;
         exit(1);
     	}
+		
         bigrand(ord,sk);      
     	fout.open(SKFILE);
      	cout<<sk<<endl;   
@@ -98,6 +101,7 @@ void ECEG::keyGen()  {
 
 void ECEG::Enc(std::istream &pKey, std::istream &plain)  {
 	          
+cout << "----------------------------------Encryption----------------------------------------" << endl;	
 	if (!initialized)   {
                 std::cerr << "Error: 'setPoint': It must first be initialized!" << std::endl;
         exit(1);
@@ -125,13 +129,14 @@ void ECEG::Enc(std::istream &pKey, std::istream &plain)  {
         fout<<C2x<<endl;
         fout<<C2y<<endl;
         fout.close();
+
  
 }
 
 
 
 void ECEG::Dec(std::istream &sKey, std::istream &cipher)  {
-	
+	cout << "----------------------------------Decryption----------------------------------------" << endl;
 	if (!initialized)   {
                 std::cerr << "Error: 'setPoint': It must first be initialized!" << std::endl;
         exit(1);
@@ -148,17 +153,24 @@ void ECEG::Dec(std::istream &sKey, std::istream &cipher)  {
 	ecurve_mult(sk,C1,C1);
 	ecurve_sub(C1,C2);
 	epoint_copy(C2,M);
-	ifstream ecSource2("./curves/ec50bits.ecs");
+	ifstream ecSource2("./curves/ec521bits.ecs");
 	CECContext::init(ecSource2, MR_PROJECTIVE, 10,M);
 	big result = mirvar(0);
 	CTimer stopwatch;
+	big paramA = mirvar(0);
+	big paramB = mirvar(0);
+	convert(0,paramA);
+	convert(pow(2,MSG_SIZE)-1,paramB);
+	cout<<paramA<<endl<<paramB<<endl;
+ 	CLambdaAlg::setLambdaParams(paramA,paramB);
 	if ( CLambdaAlg::computeLogarithm(result)  )        {
-        cout << "result = " << result << endl;
-        cout << "The Computation of Pollard-Rho (improved brent) algoritmom lasted: " << stopwatch.getTime() << " seconds" << endl;
-    } else      {
-        cerr << "The computation failed! it took " << stopwatch.getTime() << " seconds" << endl;
-        //exit(EXIT_FAILURE);
-    }
+
+		cout << "result = " << result << endl;
+		cout << "The Computation of Pollard-Lambda algoritmom lasted: " << stopwatch.getTime() << " seconds" << endl;
+	} else      {
+		cerr << "The computation failed! it took " << stopwatch.getTime() << " seconds" << endl;
+		//exit(EXIT_FAILURE);
+	}
 
     
 }
