@@ -1,3 +1,7 @@
+/**
+ * @file ECEG.cpp Definition of class ECEG.
+ * @author Mohamed Grissa.
+ */
 #include "ECEG.hpp"
 
 using namespace std;
