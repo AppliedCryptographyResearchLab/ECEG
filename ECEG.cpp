@@ -7,8 +7,8 @@ using namespace std;
 #define  CFILE "ECEG_Cipher.txt"
 #define  PFILE "ECEG_Plain.txt"
 #define  MSG_SIZE 20
-int pky,My,C1y,C2y;
-big a,pkx,Mx,C1x,C2x,sk,m,r;
+int pky,My,C1y,C2y,CA1y,CA2y,CB1y,CB2y;
+big a,pkx,Mx,C1x,C2x,CA1x,CA2x,CB1x,CB2x,sk,m,r,x1,x2;
 ofstream fout;
 miracl *mip = mirsys(36,0);
 /*#ifndef MR_NOFULLWIDTH   
@@ -28,6 +28,10 @@ epoint * ECEG::Q = NULL;
 epoint * ECEG::M = NULL;
 epoint * ECEG::C1 = NULL;
 epoint * ECEG::C2 = NULL;
+epoint * ECEG::CA1 = NULL;
+epoint * ECEG::CA2 = NULL;
+epoint * ECEG::CB1 = NULL;
+epoint * ECEG::CB2 = NULL;
 
 void ECEG::init(std::istream &ecSource)
 {
@@ -42,6 +46,10 @@ void ECEG::init(std::istream &ecSource)
 	M = epoint_init();
 	C1 = epoint_init();
 	C2 = epoint_init();
+	CA1 = epoint_init();
+	CA2 = epoint_init();
+	CB1 = epoint_init();
+	CB2 = epoint_init();
 
 	a=mirvar(0);
         sk=mirvar(0);
@@ -55,20 +63,30 @@ void ECEG::init(std::istream &ecSource)
 	Mx = mirvar(0);
 	C1x = mirvar(0);
 	C2x = mirvar(0);
+	CA1x = mirvar(0);
+	CA2x = mirvar(0);
+	CB1x = mirvar(0);
+	CB2x = mirvar(0);
 	int bits;
-	big x = mirvar(0);
-	big y = mirvar(0);
+	// Generator G coordintes
+	big Gx = mirvar(0);
+	big Gy = mirvar(0);
+
+	x1 = mirvar(0);
+	x2 = mirvar(0);
+
+
 	mip->IOBASE=10;
 	ecSource >> bits;
 	mip->IOBASE=16;
-	ecSource >> ecP >> ecA >> ecB >> ord >> x >> y;
+	ecSource >> ecP >> ecA >> ecB >> ord >> Gx >> Gy;
         //convert(-3,a);
 
 	initialized = true;
 	
-        cout<<bits<<endl<<a<<endl<<x<<endl<<ord<<endl;
+        cout<<bits<<endl<<a<<endl<<Gx<<endl<<ord<<endl;
         ecurve_init(ecA, ecB, ecP, MR_PROJECTIVE);  /* Use PROJECTIVE if possible, else AFFINE coordinates */
-        if ( !epoint_set(x,y,0,G) )     {
+        if ( !epoint_set(Gx,Gy,0,G) )     {
                         std::cerr << "Error: 'init': Point (generator) does not lie on the curve!" << std::endl;
             exit(1);
         }
@@ -153,7 +171,7 @@ void ECEG::Dec(std::istream &sKey, std::istream &cipher)  {
 	ecurve_mult(sk,C1,C1);
 	ecurve_sub(C1,C2);
 	epoint_copy(C2,M);
-	ifstream ecSource2("./curves/ec521bits.ecs");
+	ifstream ecSource2("./curves/ec192bits.ecs");
 	CECContext::init(ecSource2, MR_PROJECTIVE, 10,M);
 	big result = mirvar(0);
 	CTimer stopwatch;
@@ -173,6 +191,40 @@ void ECEG::Dec(std::istream &sKey, std::istream &cipher)  {
 	}
 
     
+}
+
+void ECEG::addCiphers(std::istream &cipherA, std::istream &cipherB)   {
+
+cout << "----------------------------------Point Addition----------------------------------------" << endl;	
+	if (!initialized)   {
+                std::cerr << "Error: 'setPoint': It must first be initialized!" << std::endl;
+        exit(1);
+    	}
+	int y1,y2;
+	//Read Ciphertexts
+	cipherA >> CA1x >> CA1y >> CA2x >> CA2y;
+	epoint_set(CA1x,CA1x,CA1y,CA1);
+	epoint_set(CA2x,CA2x,CA2y,CA2);
+
+	cipherB >> CB1x >> CB1y >> CB2x >> CB2y;
+	epoint_set(CB1x,CB1x,CB1y,CB1);
+	epoint_set(CB2x,CB2x,CB2y,CB2);
+
+	ecurve_add(CA1,CB1);
+	ecurve_add(CA2,CB2);
+
+	y1=epoint_get(CB1,x1,x1);
+	y2=epoint_get(CB2,x2,x2);
+
+	fout.open(CFILE);
+	fout<<x1<<endl;
+        fout<<y1<<endl;
+        fout<<x2<<endl;
+        fout<<y2<<endl;
+        fout.close();
+
+
+
 }
 
 void ECEG::free() {
