@@ -15,11 +15,6 @@ int pky,My,C1y,C2y,CA1y,CA2y,CB1y,CB2y;
 big a,pkx,Mx,C1x,C2x,CA1x,CA2x,CB1x,CB2x,sk,m,r,x1,x2;
 ofstream fout;
 miracl *mip = mirsys(36,0);
-/*#ifndef MR_NOFULLWIDTH   
-    mip=mirsys(36,0);
-#else
-    mip=mirsys(36,MAXBASE);
-#endif*/
 
 bool ECEG::initialized = false;
 big ECEG::ecA = NULL;
