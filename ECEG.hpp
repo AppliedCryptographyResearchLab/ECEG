@@ -1,7 +1,3 @@
-/**
- * @file ECEG.hpp Declaration of class ECEG.
- * @author Mohamed Grissa.
- */
 #ifndef ECEG_HEADER
 #define ECEG_HEADER
 
@@ -18,6 +14,8 @@
 #include "CLambdaAlg.hpp"
 #include "CECContext.hpp"
 #include <math.h>
+#include <sstream>
+
 
 
 /**

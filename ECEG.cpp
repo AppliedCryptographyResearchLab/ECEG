@@ -1,7 +1,3 @@
-/**
- * @file ECEG.cpp Definition of class ECEG.
- * @author Mohamed Grissa.
- */
 #include "ECEG.hpp"
 
 using namespace std;
@@ -12,7 +8,7 @@ using namespace std;
 #define  PFILE "ECEG_Plain.txt"
 #define  MSG_SIZE 20
 int pky,My,C1y,C2y,CA1y,CA2y,CB1y,CB2y;
-big a,pkx,Mx,C1x,C2x,CA1x,CA2x,CB1x,CB2x,sk,m,r,x1,x2;
+big a,pkx,Mx,C1x,C2x,CA1x,CA2x,CB1x,CB2x,sk,m,r,x1,x2,r_crt,d,diff;
 ofstream fout;
 miracl *mip = mirsys(36,0);
 /*#ifndef MR_NOFULLWIDTH   
@@ -62,7 +58,9 @@ void ECEG::init(std::istream &ecSource)
         ecP = mirvar(0);
         ord = mirvar(0);
         pkx = mirvar(0);
-        r=mirvar(0);
+        r = mirvar(0);
+
+
 	m=mirvar(0);
 	Mx = mirvar(0);
 	C1x = mirvar(0);
@@ -106,7 +104,32 @@ cout << "----------------------------------Key Generation-----------------------
                 std::cerr << "Error: 'setPoint': It must first be initialized!" << std::endl;
         exit(1);
     	}
-		
+	
+	big msgSpace,diff,r_crt,d;
+	msgSpace = mirvar(0);
+	diff = mirvar(0);
+	r_crt = mirvar(0);
+	d = mirvar(0);
+
+	convert(pow(2,MSG_SIZE),msgSpace);
+	cout<< "msgSpace:"<< msgSpace<< endl;
+	subtract(ord,msgSpace,diff);
+	cout<< "diff:"<< diff<< endl;
+	bigrand(diff,r_crt);
+	cout<< "r_crt:"<< r_crt<< endl;
+	subtract(ord,r_crt,d);
+	cout<< "order:"<< ord << endl;
+	mip->IOBASE=10;
+	cout<< "d:"<< d << endl;
+
+	std::ostringstream stream;
+	stream << "./facter " << d;
+	std::string result = stream.str();
+	const char * c = result.c_str();
+	std::system(c);
+	//std::system("./facter");
+
+	mip->IOBASE=16;
         bigrand(ord,sk);      
     	fout.open(SKFILE);
      	cout<<sk<<endl;   
