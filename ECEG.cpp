@@ -1,3 +1,8 @@
+/**
+ * @file CECContext.cpp Definition of class CECContext.
+ * @author Mohamed Grissa.
+ * @date 03/15/2015.
+ **/
 #include "ECEG.hpp"
 
 using namespace std;
@@ -17,7 +22,6 @@ big ECEG::ecA = NULL;
 big ECEG::ecB = NULL;
 big ECEG::ecP = NULL;
 big ECEG::ord = NULL;
-big ECEG::bigBuffer[BIG_BUFFER_SIZE];
 epoint * ECEG::G = NULL;
 epoint * ECEG::Q = NULL;
 epoint * ECEG::M = NULL;
@@ -31,11 +35,11 @@ epoint * ECEG::CB2 = NULL;
 void ECEG::init(std::istream &ecSource)
 {
 	cout << "----------------------------------Initialization----------------------------------------" << endl;
-    irand( (unsigned int)time(0) );
-    if ( ecSource.fail() )      {
+	irand( (unsigned int)time(0) );
+	if ( ecSource.fail() )      {
         std::cerr << "Error: 'init': Failed to load curves from file!" << std::endl;
         exit(1);
-    } else  {
+	} else  {
         G = epoint_init();  
 	Q = epoint_init();
 	M = epoint_init();
@@ -88,7 +92,7 @@ void ECEG::init(std::istream &ecSource)
             exit(1);
         }
 	}
-
+	cout << "----------------------------------------------------------------------------------------" << endl;
 }
 
 
@@ -99,30 +103,6 @@ cout << "----------------------------------Key Generation-----------------------
                 std::cerr << "Error: 'setPoint': It must first be initialized!" << std::endl;
         exit(1);
     	}
-	
-	big msgSpace,diff,r_crt,d;
-	msgSpace = mirvar(0);
-	diff = mirvar(0);
-	r_crt = mirvar(0);
-	d = mirvar(0);
-
-	convert(pow(2,MSG_SIZE),msgSpace);
-	cout<< "msgSpace:"<< msgSpace<< endl;
-	subtract(ord,msgSpace,diff);
-	cout<< "diff:"<< diff<< endl;
-	bigrand(diff,r_crt);
-	cout<< "r_crt:"<< r_crt<< endl;
-	subtract(ord,r_crt,d);
-	cout<< "order:"<< ord << endl;
-	mip->IOBASE=10;
-	cout<< "d:"<< d << endl;
-
-	std::ostringstream stream;
-	stream << "./facter " << d;
-	std::string result = stream.str();
-	const char * c = result.c_str();
-	std::system(c);
-	//std::system("./facter");
 
 	mip->IOBASE=16;
         bigrand(ord,sk);      
@@ -136,12 +116,12 @@ cout << "----------------------------------Key Generation-----------------------
         fout<<pkx<<endl;
         fout<<pky<<endl;
         fout.close();
-
+	cout << "----------------------------------------------------------------------------------------" << endl;
 }
 
 void ECEG::Enc(std::istream &pKey, std::istream &plain)  {
 	          
-cout << "----------------------------------Encryption----------------------------------------" << endl;	
+	cout << "----------------------------------Encryption----------------------------------------" << endl;	
 	if (!initialized)   {
                 std::cerr << "Error: 'setPoint': It must first be initialized!" << std::endl;
         exit(1);
@@ -152,7 +132,9 @@ cout << "----------------------------------Encryption---------------------------
 	epoint_set(pkx,pkx,pky,Q);
 	bigrand(ord,r);
         //Read Plaintext
+	mip->IOBASE=10;
 	plain>>m;
+	mip->IOBASE=16;
         ecurve_mult(m,G,M);
 	ecurve_mult(r,G,C1);
 	My=epoint_get(M,Mx,Mx);
@@ -169,7 +151,7 @@ cout << "----------------------------------Encryption---------------------------
         fout<<C2x<<endl;
         fout<<C2y<<endl;
         fout.close();
-
+	cout << "----------------------------------------------------------------------------------------" << endl;
  
 }
 
@@ -211,13 +193,13 @@ void ECEG::Dec(std::istream &sKey, std::istream &cipher)  {
 		cerr << "The computation failed! it took " << stopwatch.getTime() << " seconds" << endl;
 		//exit(EXIT_FAILURE);
 	}
-
+	cout << "----------------------------------------------------------------------------------------" << endl;
     
 }
 
 void ECEG::addCiphers(std::istream &cipherA, std::istream &cipherB)   {
 
-cout << "----------------------------------Point Addition----------------------------------------" << endl;	
+	cout << "----------------------------------Point Addition----------------------------------------" << endl;	
 	if (!initialized)   {
                 std::cerr << "Error: 'setPoint': It must first be initialized!" << std::endl;
         exit(1);
@@ -244,27 +226,23 @@ cout << "----------------------------------Point Addition-----------------------
         fout<<x2<<endl;
         fout<<y2<<endl;
         fout.close();
-
-
-
+	cout << "----------------------------------------------------------------------------------------" << endl;
 }
 
 void ECEG::free() {
-    if (ecA != NULL)
-        mirkill(ecA);
-    if (ecB != NULL)
-        mirkill(ecB);
-    if (ecP != NULL)
-        mirkill(ecP);
-    if (ord != NULL)
-        mirkill(ord);
-    if (G != NULL)
-        epoint_free(G);
-    if (initialized)    {
-        for (int i = 0; i < BIG_BUFFER_SIZE; i++)       {
-            mirkill(bigBuffer[i]);
-        }
-    }
-    mirexit();
-    initialized = false;
+	if (ecA != NULL) mirkill(ecA);
+	if (ecB != NULL) mirkill(ecB);
+	if (ecP != NULL) mirkill(ecP);
+	if (ord != NULL) mirkill(ord);
+	if (G != NULL) epoint_free(G);
+	if (Q != NULL) epoint_free(Q);
+	if (M != NULL) epoint_free(M);
+	if (C1 != NULL) epoint_free(C1);
+	if (C2 != NULL) epoint_free(C2);
+	if (CA1 != NULL) epoint_free(CA1);
+	if (CA2 != NULL) epoint_free(CA2);
+	if (CB1 != NULL) epoint_free(CB1);
+	if (CB2 != NULL) epoint_free(CB2);
+	mirexit();
+	initialized = false;
 }
