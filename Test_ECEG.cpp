@@ -18,7 +18,6 @@ using namespace std;
 #define  PKFILE "EC_PK.txt"
 #define  SKFILE "EC_SK.txt"
 #define  CFILE "ECEG_Cipher.txt"
-#define  CFILE2 "ECEG_Cipher2.txt"
 #define  PFILE "ECEG_Plain.txt"
 
 int main()  {
