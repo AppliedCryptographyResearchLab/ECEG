@@ -1,9 +1,9 @@
 /**
- * @file CLambdaAlg.cpp Implementation of Class CLambdaAlg.
- *
- * @author Martin Kosorinský.
- * @date 1.4.2009.
- */
+ * @file CLambdaAlg.cpp Definition of class CLambdaAlg.
+ * @author Mohamed Grissa.
+ * @ref: adapted from Martin Kosorinský's implementation of Pollard Lambda algorithm.
+ * @date 03/15/2015.
+ **/
 
 #include "CLambdaAlg.hpp"
 
