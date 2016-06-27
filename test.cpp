@@ -1,5 +1,5 @@
 /**
- * @file CECContext.cpp Definition of class CECContext.
+ * @file test.cpp.
  * @author Mohamed Grissa.
  * @date 03/15/2015.
  **/
