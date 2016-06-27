@@ -72,12 +72,12 @@ bool CLambdaAlg::computeLogarithm(big result) {
 
     epoint * T = epoint_init();                                     // point representing tame kangaroo
     big dT = mirvar(0);                                                         // distance traveled Taming kangaroos
-    ecurve_mult(paramB, G, T);                                      // skrotena  kangaroo starts running at the end of the crawl interval
+    ecurve_mult(paramB, G, T);                                      // kangaroo starts running at the end of the crawl interval
 
     for (zero(bigBuffer[2]); mr_compare(bigBuffer[2],paramN) < 1 ; incr(bigBuffer[2],1,bigBuffer[2]) )     {
         makeStep(T, dT);                                                        // deterministic pseudorandom jump Taming kangaroos
     }
-    tracer << "Skrotena kangaroo is entrenched in " << T << " (distance = " << dT << ")" << endl;
+    tracer << "Kangaroo is entrenched in " << T << " (distance = " << dT << ")" << endl;
 
     epoint * W = epoint_init();                                         // wild kangaroo
     big dW = mirvar(0);                                                     // distance traveled wild kangaroos
