@@ -1,5 +1,5 @@
 /**
- * @file miraclExtensions.hpp Rožšírenia pre knížnicu MIRACL, deklarácia CEpointCmp a CEpointEq.
+ * @file miraclExtensions.hpp Extension for MIRACL libraries, declaration of CEpointCmp and CEpointEq.
  *
  * @author Martin Kosorinský.
  * @date 20.3.2009.
@@ -42,8 +42,8 @@ typedef std::map<epoint*, std::pair<big,big>, CEpointCmp> TRhoEpointList;
 #endif
 
 /**
- * @brief Rožšírené trace makro - vypisuje meno funkcie, z ktorej bolo volané.
- * Zapisuje pomocné správy do bufferovaneho chybového výstupu. Využíva možnosti C++ prúdov.
+ * @brief Advanced trace macro - lists the name of the function from which it was called.
+ * Writing with buffering messages in the error. It leverages the capabilities of C ++ streams.
  * Optimalizácia kompilátora by mala zabezpečiť jeho neúčinnosť a neprítomnosť v kóde v prípade
  * release kompilácie.
  */
@@ -51,8 +51,8 @@ typedef std::map<epoint*, std::pair<big,big>, CEpointCmp> TRhoEpointList;
 #define tracerex std::clog << "TRACE [" << __FUNCTION__ << "]: "
 
 /**
- * @brief Trace makro.
- * Zapisuje pomocné správy do bufferovaneho chybového výstupu. Využíva možnosti C++ prúdov.
+ * @brief Trace macro.
+ * Writing with buffering messages in the error. Leverages the capabilities of C ++ streams.
  * Optimalizácia kompilátora by mala zabezpečiť jeho neúčinnost a neprítomnosť v kóde v prípade
  * release kompilácie.
  */
