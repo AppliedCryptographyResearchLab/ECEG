@@ -22,57 +22,47 @@ using namespace std;
 
 int main()  {
 
-	// Load the elliptic curve parameters
+	// Loads the elliptic curve parameters
 	ifstream inputFile("./curves/ec224bits.ecs");
 	ECEG::init(inputFile);
 	inputFile.close();
 	
-	// Generate the crypto keys for 
+	// Generates the crypto keys 
 	ECEG::keyGen();
-	
-	
 	
 	cipher ciphers;
 
+	// Loads the generated public key
 	ifstream publicKey(PKFILE);
 	publicKey>>ECEG::pkx>>ECEG::pky;
 	publicKey.close();
 	publicKey.clear();
-	//epoint_set(ECEG::pkx,ECEG::pkx,ECEG::pky,ECEG::Q);
+	
+	// Loads the generated secert key
 	ifstream secretKey(SKFILE);
 	secretKey >> ECEG::sk;
 	secretKey.close();
 	secretKey.clear();
 	
+	// Loads the plaintext to be encrypted
 	ifstream plainText(PFILE);
-
-
-		ciphers = ECEG::Enc(plainText);
-		//plainText.close();
-		
-		ifstream cipherText(CFILE);
-		//ifstream cipherText2(CFILE2);
-		//ECEG::addCiphers(cipherText,cipherText2);
-		cipherText >> ECEG::C1x >> ECEG::C1y >> ECEG::C2x >> ECEG::C2y;
-		//cout << "bzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz" << endl << ECEG::C1x << endl << ECEG::C1y << endl << ECEG::C2x << endl << ECEG::C2y << endl;
-		//CTimer stopwatch;
-		ECEG::Dec();
-		//avrg = avrg + stopwatch.getTime();
-		//cout<<"Time" << stopwatch.getTime()<<endl;
-
-		cipherText.close();
-		cipherText.clear();
-		
-
+	
+	// Encryption of the plaintext
+	ciphers = ECEG::Enc(plainText);
 	plainText.close();
 	plainText.clear();
-	/*avrg = avrg/b;
-	cout << avrg;*/
-
-	//ECEG::free();
-
-
 	
+	// Loads the ciphertext to be decrypted
+	ifstream cipherText(CFILE);
+	cipherText >> ECEG::C1x >> ECEG::C1y >> ECEG::C2x >> ECEG::C2y;
+	cipherText.close();
+	cipherText.clear();
+	
+	// Decription of the ciphertext
+	ECEG::Dec();
+	
+	// Frees memory
+	ECEG::free();
 
     	return 0;
 }
