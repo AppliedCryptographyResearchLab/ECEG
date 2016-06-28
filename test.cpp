@@ -1,5 +1,5 @@
 /**
- * @file test.cpp.
+ * @file test.cpp to show how to use the Elliptic Curve El Gamal ECEG class.
  * @author Mohamed Grissa.
  * @date 03/15/2015.
  **/
@@ -8,13 +8,13 @@
 #include <iostream>
 #include <fstream>
 #include <ctime>
-#include "CTimer.hpp"
 #include "miraclExtensions.hpp"
 #include "CLambdaAlg.hpp"
 #include "ECEG.hpp"
 #include <cstdlib>
 using namespace std;
 
+//
 #define  PKFILE "EC_PK.txt"
 #define  SKFILE "EC_SK.txt"
 #define  CFILE "ECEG_Cipher.txt"
@@ -22,14 +22,12 @@ using namespace std;
 
 int main()  {
 
-    // Initialization curves and libraries miracle -> before the steering wheel must be no variables allocation big or ePoint !!!
-
-	//double avrg = 0;
-	//int b = 0;
-	
+	// Load the elliptic curve parameters
 	ifstream inputFile("./curves/ec224bits.ecs");
 	ECEG::init(inputFile);
 	inputFile.close();
+	
+	// Generate the crypto keys for 
 	ECEG::keyGen();
 	
 	
