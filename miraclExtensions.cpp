@@ -1,5 +1,5 @@
 /**
- * @file miraclExtensions.cpp Rožšírenia pre knížnicu MIRACL, definícia triedy CEpointCmp.
+ * @file miraclExtensions.cpp.
  *
  * @author Martin Kosorinský.
  * @date 1.4.2009.
