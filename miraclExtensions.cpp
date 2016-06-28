@@ -1,5 +1,5 @@
 /**
- * @file miraclExtensions.cpp.
+ * @file miraclExtensions.cpp Extension for MIRACL libraries, declaration of CEpointCmp.
  *
  * @author Martin Kosorinský.
  * @date 1.4.2009.
