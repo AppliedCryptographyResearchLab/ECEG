@@ -12,9 +12,10 @@
 #include "CLambdaAlg.hpp"
 #include "ECEG.hpp"
 #include <cstdlib>
+
 using namespace std;
 
-//
+
 #define  PKFILE "EC_PK.txt"
 #define  SKFILE "EC_SK.txt"
 #define  CFILE "ECEG_Cipher.txt"
