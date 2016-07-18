@@ -59,7 +59,7 @@ int main()  {
 	cipherText.close();
 	cipherText.clear();
 	
-	// Decription of the ciphertext
+	// Decryption of the ciphertext
 	ECEG::Dec();
 	
 	// Frees memory
