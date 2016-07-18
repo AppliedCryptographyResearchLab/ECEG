@@ -1,4 +1,4 @@
-## Description
+# Description
 
 Miracl implementation of Elliptic Curve El Gamal Cryptosystem using Pollard methods to solve ECDLP for the reverse map.
 
